@@ -55,6 +55,9 @@ function playRound(computerSelection, playerSelection) {
 }
 
 function game() {
+  let playerScore = 0;
+  let computerScore = 0;
+
   for (let i = 0; i < 5; i++) {
     const computerSelection = getComputerSelection();
     const playerSelection = getPlayerSelection();
@@ -62,7 +65,24 @@ function game() {
     console.log(
       `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`
     );
+
+    if (roundResult === "Player wins") {
+      playerScore++;
+    }
+    if (roundResult === "Computer wins") {
+      computerScore++;
+    }
   }
+
+  if (playerScore > computerScore) {
+    console.log("Player wins the game!");
+    return;
+  }
+  if (playerScore < computerScore) {
+    console.log("Computer wins the game!");
+    return;
+  }
+  console.log("The game is tied!");
 }
 
 game();
