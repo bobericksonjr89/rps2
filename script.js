@@ -12,15 +12,19 @@ function getComputerSelection() {
 }
 
 function getPlayerSelection() {
-  let playerSelection = prompt("rock, paper, or scissors?").toLowerCase();
+  let playerSelection = promptPlayer().toLowerCase();
   while (
     playerSelection !== "rock" &&
     playerSelection !== "paper" &&
     playerSelection !== "scissors"
   ) {
-    playerSelection = prompt("rock, paper, or scissors?");
+    playerSelection = promptPlayer();
   }
   return playerSelection;
+}
+
+function promptPlayer() {
+  return prompt("rock, paper, or scissors?");
 }
 
 function playRound(computerSelection, playerSelection) {
@@ -54,6 +58,18 @@ function playRound(computerSelection, playerSelection) {
   }
 }
 
+function detectWinner(playerScore, computerScore) {
+  if (playerScore > computerScore) {
+    console.log("Player wins the game!");
+    return;
+  }
+  if (playerScore < computerScore) {
+    console.log("Computer wins the game!");
+    return;
+  }
+  console.log("The game is tied!");
+}
+
 function game() {
   let playerScore = 0;
   let computerScore = 0;
@@ -74,15 +90,7 @@ function game() {
     }
   }
 
-  if (playerScore > computerScore) {
-    console.log("Player wins the game!");
-    return;
-  }
-  if (playerScore < computerScore) {
-    console.log("Computer wins the game!");
-    return;
-  }
-  console.log("The game is tied!");
+  detectWinner(playerScore, computerScore);
 }
 
 game();
