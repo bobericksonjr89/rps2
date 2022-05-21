@@ -74,20 +74,18 @@ function game() {
   let playerScore = 0;
   let computerScore = 0;
 
-  for (let i = 0; i < 5; i++) {
-    const computerSelection = getComputerSelection();
-    const playerSelection = getPlayerSelection();
-    const roundResult = playRound(computerSelection, playerSelection);
-    console.log(
-      `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`
-    );
+  const computerSelection = getComputerSelection();
+  const playerSelection = getPlayerSelection();
+  const roundResult = playRound(computerSelection, playerSelection);
+  console.log(
+    `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`
+  );
 
-    if (roundResult === "Player wins") {
-      playerScore++;
-    }
-    if (roundResult === "Computer wins") {
-      computerScore++;
-    }
+  if (roundResult === "Player wins") {
+    playerScore++;
+  }
+  if (roundResult === "Computer wins") {
+    computerScore++;
   }
 
   detectWinner(playerScore, computerScore);
