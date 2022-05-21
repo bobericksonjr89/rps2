@@ -7,6 +7,10 @@ let turns = 0;
 const rock = document.querySelector("[data-move='rock']");
 const paper = document.querySelector("[data-move='paper']");
 const scissors = document.querySelector("[data-move='scissors']");
+const message = document.querySelector(".message");
+const winner = document.querySelector(".winner");
+const playerScoreboard = document.querySelector("div[data-score='player']");
+const computerScoreboard = document.querySelector("div[data-score='computer']");
 
 // Event Listeners
 
@@ -32,12 +36,15 @@ function getPlayerSelection(e) {
 }
 
 function playRound(e) {
+  if (turns === 0) {
+    clearWinner();
+  }
+
   const computerSelection = getComputerSelection();
   const playerSelection = getPlayerSelection(e);
   const roundResult = evalRound(computerSelection, playerSelection);
-  console.log(
-    `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`
-  );
+  message.textContent = `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`;
+
   if (roundResult === "Player wins") {
     playerScore++;
   }
@@ -45,9 +52,8 @@ function playRound(e) {
     computerScore++;
   }
   turns++;
-  if (turns === 5) {
-    detectWinner(playerScore, computerScore);
-  }
+  displayScore();
+  detectGameEnd();
 }
 
 function evalRound(computerSelection, playerSelection) {
@@ -81,14 +87,34 @@ function evalRound(computerSelection, playerSelection) {
   }
 }
 
+function detectGameEnd() {
+  if (turns === 5) {
+    winner.textContent = detectWinner(playerScore, computerScore);
+    resetGame();
+  }
+}
+
 function detectWinner(playerScore, computerScore) {
   if (playerScore > computerScore) {
-    console.log("Player wins the game!");
-    return;
+    return "Player wins the game!";
   }
   if (playerScore < computerScore) {
-    console.log("Computer wins the game!");
-    return;
+    return "Computer wins the game!";
   }
-  console.log("The game is tied!");
+  return "The game is tied!";
+}
+
+function resetGame() {
+  playerScore = 0;
+  computerScore = 0;
+  turns = 0;
+}
+
+function clearWinner() {
+  winner.textContent = "";
+}
+
+function displayScore() {
+  playerScoreboard.textContent = playerScore;
+  computerScoreboard.textContent = computerScore;
 }
