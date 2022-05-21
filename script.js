@@ -1,3 +1,19 @@
+// Globals
+let playerScore = 0;
+let computerScore = 0;
+let turns = 0;
+
+// DOM Capture
+const rock = document.querySelector("[data-move='rock']");
+const paper = document.querySelector("[data-move='paper']");
+const scissors = document.querySelector("[data-move='scissors']");
+
+// Event Listeners
+
+rock.addEventListener("click", playRound);
+paper.addEventListener("click", playRound);
+scissors.addEventListener("click", playRound);
+
 function getComputerSelection() {
   const randomInt = Math.floor(Math.random() * 3 + 1);
 
@@ -11,23 +27,30 @@ function getComputerSelection() {
   }
 }
 
-function getPlayerSelection() {
-  let playerSelection = promptPlayer().toLowerCase();
-  while (
-    playerSelection !== "rock" &&
-    playerSelection !== "paper" &&
-    playerSelection !== "scissors"
-  ) {
-    playerSelection = promptPlayer();
+function getPlayerSelection(e) {
+  return e.target.dataset.move;
+}
+
+function playRound(e) {
+  const computerSelection = getComputerSelection();
+  const playerSelection = getPlayerSelection(e);
+  const roundResult = evalRound(computerSelection, playerSelection);
+  console.log(
+    `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`
+  );
+  if (roundResult === "Player wins") {
+    playerScore++;
   }
-  return playerSelection;
+  if (roundResult === "Computer wins") {
+    computerScore++;
+  }
+  turns++;
+  if (turns === 5) {
+    detectWinner(playerScore, computerScore);
+  }
 }
 
-function promptPlayer() {
-  return prompt("rock, paper, or scissors?");
-}
-
-function playRound(computerSelection, playerSelection) {
+function evalRound(computerSelection, playerSelection) {
   if (computerSelection === "rock") {
     switch (playerSelection) {
       case "rock":
@@ -69,26 +92,3 @@ function detectWinner(playerScore, computerScore) {
   }
   console.log("The game is tied!");
 }
-
-function game() {
-  let playerScore = 0;
-  let computerScore = 0;
-
-  const computerSelection = getComputerSelection();
-  const playerSelection = getPlayerSelection();
-  const roundResult = playRound(computerSelection, playerSelection);
-  console.log(
-    `${roundResult}! Computer chose ${computerSelection} and player chose ${playerSelection}.`
-  );
-
-  if (roundResult === "Player wins") {
-    playerScore++;
-  }
-  if (roundResult === "Computer wins") {
-    computerScore++;
-  }
-
-  detectWinner(playerScore, computerScore);
-}
-
-game();
